@@ -1,0 +1,90 @@
+{
+  "default-configuration": "Debug",
+  "configurations": [
+    "Debug",
+    "Release",
+  ],
+  "localizations": {
+    "development": "en",
+    "supported": [
+      "Base",
+    ],
+  },
+  "files": [
+    {
+      "kind": "group",
+      "path": "SmartWeather",
+      "children": [
+        {
+          "kind": "group",
+          "path": "App",
+          "children": [
+            { "path": "SmartWeatherApp.swift", "target-membership": [ "SmartWeather/compile-sources" ] },
+          ],
+        },
+      ],
+    },
+    {
+      "kind": "group",
+      "name": "Products",
+      "children": [
+        { "path": "<PRODUCTS>/SmartWeather.app", "id": "SWAPP0000000000000000001", "type": "wrapper.application", "index": false },
+      ],
+    },
+  ],
+  "targets": [
+    {
+      "name": "SmartWeather",
+      "id": "SWTARGET0000000000000001",
+      "product": "Products/SmartWeather.app",
+      "product-type": "application",
+      "legacy-provisioning-style": "automatic",
+      "build-phases": [
+        "compile-sources",
+      ],
+      "build-settings": {
+        "CODE_SIGN_IDENTITY": "iPhone Developer",
+        "CODE_SIGN_STYLE": "Automatic",
+        "ENABLE_PREVIEWS": "YES",
+        "GENERATE_INFOPLIST_FILE": "YES",
+        "INFOPLIST_KEY_CFBundleDisplayName": "SmartWeather",
+        "INFOPLIST_KEY_UIApplicationSceneManifest_Generation": "YES",
+        "INFOPLIST_KEY_UIApplicationSupportsMultipleScenes": "YES",
+        "INFOPLIST_KEY_UILaunchScreen_Generation": "YES",
+        "INFOPLIST_KEY_UISupportedInterfaceOrientations": "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortraitUpsideDown",
+        "LD_RUNPATH_SEARCH_PATHS": [
+          "$(inherited)",
+          "@executable_path/Frameworks",
+        ],
+        "PRODUCT_BUNDLE_IDENTIFIER": "com.example.SmartWeather",
+        "SDKROOT": "iphoneos",
+        "TARGETED_DEVICE_FAMILY": "1,2",
+      },
+    },
+  ],
+  "build-settings": {
+    "ALWAYS_SEARCH_USER_PATHS": "NO",
+    "CLANG_ANALYZER_NONNULL": "YES",
+    "CLANG_ENABLE_MODULES": "YES",
+    "CLANG_ENABLE_OBJC_ARC": "YES",
+    "COPY_PHASE_STRIP": "NO",
+    "CURRENT_PROJECT_VERSION": "1",
+    "DEBUG_INFORMATION_FORMAT[config=Debug]": "dwarf",
+    "DEBUG_INFORMATION_FORMAT[config=Release]": "dwarf-with-dsym",
+    "ENABLE_TESTABILITY[config=Debug]": "YES",
+    "ENABLE_USER_SCRIPT_SANDBOXING": "YES",
+    "IPHONEOS_DEPLOYMENT_TARGET": "27.1",
+    "MARKETING_VERSION": "1.0",
+    "ONLY_ACTIVE_ARCH[config=Debug]": "YES",
+    "PRODUCT_NAME": "$(TARGET_NAME)",
+    "SDKROOT": "iphoneos",
+    "STRING_CATALOG_GENERATE_SYMBOLS": "YES",
+    "SWIFT_ACTIVE_COMPILATION_CONDITIONS[config=Debug]": "DEBUG",
+    "SWIFT_DEFAULT_ACTOR_ISOLATION": "MainActor",
+    "SWIFT_OPTIMIZATION_LEVEL[config=Debug]": "-Onone",
+    "SWIFT_OPTIMIZATION_LEVEL[config=Release]": "-O",
+    "SWIFT_VERSION": "6.0",
+  },
+  "products-group": null,
+  "last-upgrade": "27.1",
+}
