@@ -80,6 +80,19 @@
             },
           ],
         },
+        {
+          "kind": "group",
+          "path": "Presentation",
+          "children": [
+            {
+              "kind": "group",
+              "path": "ViewModels",
+              "children": [
+                { "path": "WeatherPlannerViewModel.swift", "target-membership": [ "SmartWeather/compile-sources" ] },
+              ],
+            },
+          ],
+        },
       ],
     },
     {

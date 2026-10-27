@@ -89,4 +89,12 @@
 - **Expected failure observed**: Missing types `OpenMeteoClient`, `OpenMeteoError`, and actor isolation mismatch on `MockURLProtocol`.
 - **Minimum implementation**: Created `OpenMeteoError.swift`, `WeatherServiceProtocol.swift`, and `OpenMeteoClient.swift` under `SmartWeather/Data/Network/`. Configured dependency injection for `URLSession`.
 - **Passing outcome**: 36 tests in 9 suites passed in 0.019s. App build succeeded with 0 warnings.
-- **Commit**: `1b60675 feat(network): implement OpenMeteoClient and WeatherServiceProtocol with TDD`
+- **Commit**: `d4b4630 feat(network): implement OpenMeteoClient and WeatherServiceProtocol with TDD`
+
+### Cycle 10: State Management & WeatherPlannerViewModel
+- **Behavior under test**: MainActor `@Observable` ViewModel coordinating location search, asynchronous request debouncing, active task cancellation to avoid stale data races, forecast loading, dynamic 7-day activity re-ranking, and error state transitions.
+- **Test defined**: `SmartWeatherTests/WeatherPlannerViewModelTests.swift` (6 tests using `MockWeatherService`).
+- **Expected failure observed**: Missing type `WeatherPlannerViewModel` in scope.
+- **Minimum implementation**: Created `SmartWeather/Presentation/ViewModels/WeatherPlannerViewModel.swift` with structured task management (`searchTask`, `forecastTask`), configurable debounce interval, and computed `rankedDays` property.
+- **Passing outcome**: 42 tests in 10 suites passed in 0.078s. Xcode build succeeded with 0 warnings.
+- **Commit**: `327b1cc feat(presentation): implement WeatherPlannerViewModel with debouncing and TDD`
