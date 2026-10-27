@@ -41,4 +41,12 @@
 - **Expected failure observed**: Missing `SurfingScorer` symbol in scope.
 - **Minimum implementation**: Created `SurfingScorer.swift` validating marine metric presence, calculating height base, period groundswell bonus, surface texture wind penalties, and descriptive explanations.
 - **Passing outcome**: 50 tests passed. Ideal groundswell: 100 (Suitable); Flat waves: 0 (Unsuitable); Blown out wind: 30 (Unsuitable); Inland city: nil score and `.unavailable`.
-- **Commit**: (Pending Task 4 commit)
+- **Commit**: `9cf527b feat(scoring): implement SurfingScorer with TDD`
+
+### Cycle 4: Outdoor Sightseeing Scoring Engine (`OutdoorSightseeingScorer`)
+- **Behavior under test**: Deterministic calculation of outdoor walking and sightseeing suitability. Evaluates comfortable walking temperatures ($18^\circ\text{C}\dots24^\circ\text{C}$ sweet spot), severe rain penalties ($>10\text{mm}$ or $>80\%$ probability), sweltering heatwave penalties ($>34^\circ\text{C}$), and high wind discomfort ($>28\text{ km/h}$).
+- **Test defined**: `SmartWeatherTests/OutdoorSightseeingScorerTests.swift`
+- **Expected failure observed**: Missing `OutdoorSightseeingScorer` symbol in scope.
+- **Minimum implementation**: Created `OutdoorSightseeingScorer.swift` with rain deductions, walking temperature zones, dry condition bonuses (conditioned on non-extreme temperatures), and human-readable explanation generation.
+- **Passing outcome**: 60 tests passed. Ideal sunny: 100 (Suitable); Cool autumn: 75 (Suitable); Rainstorm: 10 (Unsuitable); 37°C heatwave: 40 (Marginal).
+- **Commit**: (Pending Task 5 commit)

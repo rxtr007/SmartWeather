@@ -39,6 +39,7 @@
               "kind": "group",
               "path": "Scoring",
               "children": [
+                { "path": "OutdoorSightseeingScorer.swift", "target-membership": [ "SmartWeather/compile-sources" ] },
                 { "path": "SkiingScorer.swift", "target-membership": [ "SmartWeather/compile-sources" ] },
                 { "path": "SurfingScorer.swift", "target-membership": [ "SmartWeather/compile-sources" ] },
               ],

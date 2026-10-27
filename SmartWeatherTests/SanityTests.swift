@@ -40,6 +40,9 @@ struct TestRunner {
         // Surfing Scorer Tests
         SurfingScorerTests.run()
         
+        // Outdoor Sightseeing Scorer Tests
+        OutdoorSightseeingScorerTests.run()
+        
         print("\nResults: \(testPasses) passed, \(testFailures) failed.")
         if testFailures > 0 {
             exit(1)
