@@ -22,6 +22,21 @@
             { "path": "SmartWeatherApp.swift", "target-membership": [ "SmartWeather/compile-sources" ] },
           ],
         },
+        {
+          "kind": "group",
+          "path": "Domain",
+          "children": [
+            {
+              "kind": "group",
+              "path": "Models",
+              "children": [
+                { "path": "ActivityType.swift", "target-membership": [ "SmartWeather/compile-sources" ] },
+                { "path": "DailyWeatherMetrics.swift", "target-membership": [ "SmartWeather/compile-sources" ] },
+                { "path": "SuitabilityScore.swift", "target-membership": [ "SmartWeather/compile-sources" ] },
+              ],
+            },
+          ],
+        },
       ],
     },
     {

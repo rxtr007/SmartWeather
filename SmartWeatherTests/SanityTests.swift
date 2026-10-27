@@ -31,6 +31,9 @@ struct TestRunner {
         // Baseline Sanity Test
         testScaffoldSanity()
         
+        // Domain Model Tests
+        DomainModelTests.run()
+        
         print("\nResults: \(testPasses) passed, \(testFailures) failed.")
         if testFailures > 0 {
             exit(1)
