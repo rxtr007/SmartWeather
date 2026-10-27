@@ -91,6 +91,32 @@
                 { "path": "WeatherPlannerViewModel.swift", "target-membership": [ "SmartWeather/compile-sources" ] },
               ],
             },
+            {
+              "kind": "group",
+              "path": "Views",
+              "children": [
+                {
+                  "kind": "group",
+                  "path": "Components",
+                  "children": [
+                    { "path": "ActivityPickerBar.swift", "target-membership": [ "SmartWeather/compile-sources" ] },
+                    { "path": "Color+AppTheme.swift", "target-membership": [ "SmartWeather/compile-sources" ] },
+                    { "path": "DayDetailView.swift", "target-membership": [ "SmartWeather/compile-sources" ] },
+                    { "path": "LocationSearchBar.swift", "target-membership": [ "SmartWeather/compile-sources" ] },
+                    { "path": "RankedDayCard.swift", "target-membership": [ "SmartWeather/compile-sources" ] },
+                  ],
+                },
+                {
+                  "kind": "group",
+                  "path": "Screens",
+                  "children": [
+                    { "path": "CompactPlannerView.swift", "target-membership": [ "SmartWeather/compile-sources" ] },
+                    { "path": "ExpandedPlannerView.swift", "target-membership": [ "SmartWeather/compile-sources" ] },
+                    { "path": "PlannerRootView.swift", "target-membership": [ "SmartWeather/compile-sources" ] },
+                  ],
+                },
+              ],
+            },
           ],
         },
       ],

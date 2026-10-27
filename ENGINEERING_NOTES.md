@@ -97,4 +97,9 @@
 - **Expected failure observed**: Missing type `WeatherPlannerViewModel` in scope.
 - **Minimum implementation**: Created `SmartWeather/Presentation/ViewModels/WeatherPlannerViewModel.swift` with structured task management (`searchTask`, `forecastTask`), configurable debounce interval, and computed `rankedDays` property.
 - **Passing outcome**: 42 tests in 10 suites passed in 0.078s. Xcode build succeeded with 0 warnings.
-- **Commit**: `327b1cc feat(presentation): implement WeatherPlannerViewModel with debouncing and TDD`
+- **Commit**: `4c502c8 feat(presentation): implement WeatherPlannerViewModel with debouncing and TDD`
+
+### Cycle 11: SwiftUI Presentation Layer & iPhone Duo Responsive Layouts
+- **Behavior under test**: Native SwiftUI interface providing first-class user experience across conventional single-display iPhones and the foldable iPhone Duo. Includes compact single-pane layout (`CompactPlannerView`) and dual-pane split view (`ExpandedPlannerView`), with horizontal activity filter pill bar (`ActivityPickerBar`), ranked forecast day card with score badges (`RankedDayCard`), full meteorological detail inspector (`DayDetailView`), and debounced search field with suggestions (`LocationSearchBar`). Guarantees state continuity across fold/unfold postures by binding both views to the same `WeatherPlannerViewModel` instance.
+- **Verification**: Zero DUO001–DUO009 lint warnings (`duo-lint`). Full Xcode 27.1 RC compilation for iOS Simulator succeeded with 0 warnings. 42 unit tests passed in 0.053s.
+- **Commit**: `5a8ee8e feat(ui): implement responsive SwiftUI views and iPhone Duo layouts`
