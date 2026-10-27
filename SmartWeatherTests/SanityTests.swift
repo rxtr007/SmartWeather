@@ -46,6 +46,9 @@ struct TestRunner {
         // Indoor Sightseeing Scorer Tests
         IndoorSightseeingScorerTests.run()
         
+        // Activity Ranking Engine Tests
+        ActivityRankingEngineTests.run()
+        
         print("\nResults: \(testPasses) passed, \(testFailures) failed.")
         if testFailures > 0 {
             exit(1)

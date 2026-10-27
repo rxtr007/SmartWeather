@@ -57,4 +57,12 @@
 - **Expected failure observed**: Missing `IndoorSightseeingScorer` symbol in scope.
 - **Minimum implementation**: Created `IndoorSightseeingScorer.swift` balancing indoor refuge appeal with travel feasibility safeguards.
 - **Passing outcome**: 71 tests passed. Rainy cold: 100 (Suitable); Heatwave: 80 (Suitable); Sunny outdoor day: 45 (Marginal); Severe storm transit hazard: 15 (Unsuitable).
-- **Commit**: (Pending Task 6 commit)
+- **Commit**: `2491441 feat(scoring): implement IndoorSightseeingScorer with TDD`
+
+### Cycle 6: Activity Ranking Engine (`ActivityRankingEngine` & `DailyAssessment`)
+- **Behavior under test**: Aggregating raw meteorological metrics across all four activities in `DailyAssessment`, sorting forecast days deterministically by score descending (with unavailable days ranked last), and applying secondary tie-breakers (lower rain probability, lower rain volume, lower wind speed, and chronological order).
+- **Test defined**: `SmartWeatherTests/ActivityRankingEngineTests.swift`
+- **Expected failure observed**: Missing `DailyAssessment` and `ActivityRankingEngine` symbols in scope.
+- **Minimum implementation**: Created `DailyAssessment.swift` and `ActivityRankingEngine.swift` returning `[RankedDay]` with 1-based ranks.
+- **Passing outcome**: 88 tests passed. Multi-day ranking, tie-breaking by rain risk, and unavailable placement verified.
+- **Commit**: (Pending Task 7 commit)
