@@ -43,6 +43,9 @@ struct TestRunner {
         // Outdoor Sightseeing Scorer Tests
         OutdoorSightseeingScorerTests.run()
         
+        // Indoor Sightseeing Scorer Tests
+        IndoorSightseeingScorerTests.run()
+        
         print("\nResults: \(testPasses) passed, \(testFailures) failed.")
         if testFailures > 0 {
             exit(1)

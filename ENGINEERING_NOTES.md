@@ -49,4 +49,12 @@
 - **Expected failure observed**: Missing `OutdoorSightseeingScorer` symbol in scope.
 - **Minimum implementation**: Created `OutdoorSightseeingScorer.swift` with rain deductions, walking temperature zones, dry condition bonuses (conditioned on non-extreme temperatures), and human-readable explanation generation.
 - **Passing outcome**: 60 tests passed. Ideal sunny: 100 (Suitable); Cool autumn: 75 (Suitable); Rainstorm: 10 (Unsuitable); 37°C heatwave: 40 (Marginal).
-- **Commit**: (Pending Task 5 commit)
+- **Commit**: `2dbb81c feat(scoring): implement OutdoorSightseeingScorer with TDD`
+
+### Cycle 5: Indoor Sightseeing Scoring Engine (`IndoorSightseeingScorer`)
+- **Behavior under test**: Deterministic calculation of indoor cultural sightseeing suitability (museums, galleries, aquariums). Evaluates inclement weather boosts (rain, cold, heatwave relief), pleasant outdoor weather dampeners, and severe transit hazard penalties (torrential storms $>35\text{mm}$ or gale winds $>65\text{ km/h}$).
+- **Test defined**: `SmartWeatherTests/IndoorSightseeingScorerTests.swift`
+- **Expected failure observed**: Missing `IndoorSightseeingScorer` symbol in scope.
+- **Minimum implementation**: Created `IndoorSightseeingScorer.swift` balancing indoor refuge appeal with travel feasibility safeguards.
+- **Passing outcome**: 71 tests passed. Rainy cold: 100 (Suitable); Heatwave: 80 (Suitable); Sunny outdoor day: 45 (Marginal); Severe storm transit hazard: 15 (Unsuitable).
+- **Commit**: (Pending Task 6 commit)
