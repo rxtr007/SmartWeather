@@ -81,4 +81,12 @@
 - **Expected failure observed**: Missing types `GeocodingResponse`, `ForecastResponse`, `MarineResponse`, `WeatherMetricsMapper` in scope.
 - **Minimum implementation**: Created `GeocodingResponse.swift`, `ForecastResponse.swift`, `MarineResponse.swift` in `SmartWeather/Data/DTOs/` and `WeatherMetricsMapper.swift` in `SmartWeather/Data/Mappers/`. Added Data groups to Xcode project.
 - **Passing outcome**: 31 tests in 8 suites passed in 0.008s. Full Xcode build succeeded with 0 warnings.
-- **Commit**: `62e0871 feat(data): implement Open-Meteo DTOs and WeatherMetricsMapper with TDD`
+- **Commit**: `050aa0f feat(data): implement Open-Meteo DTOs and WeatherMetricsMapper with TDD`
+
+### Cycle 9: Open-Meteo Network Client & Service Abstraction
+- **Behavior under test**: Concrete URLSession network client for Open-Meteo Geocoding (`/v1/search`), Forecast (`/v1/forecast`), and Marine (`/v1/marine`) endpoints. Validating query trimming (empty queries return `[]` without network requests), error mapping (`OpenMeteoError.httpError`), parallel forecast + marine requests via `async let`, and inland marine 400 graceful degradation.
+- **Test defined**: `SmartWeatherTests/OpenMeteoClientTests.swift` (5 tests using nonisolated `MockURLProtocol`).
+- **Expected failure observed**: Missing types `OpenMeteoClient`, `OpenMeteoError`, and actor isolation mismatch on `MockURLProtocol`.
+- **Minimum implementation**: Created `OpenMeteoError.swift`, `WeatherServiceProtocol.swift`, and `OpenMeteoClient.swift` under `SmartWeather/Data/Network/`. Configured dependency injection for `URLSession`.
+- **Passing outcome**: 36 tests in 9 suites passed in 0.019s. App build succeeded with 0 warnings.
+- **Commit**: `1b60675 feat(network): implement OpenMeteoClient and WeatherServiceProtocol with TDD`
