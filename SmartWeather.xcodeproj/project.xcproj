@@ -40,6 +40,7 @@
               "path": "Scoring",
               "children": [
                 { "path": "SkiingScorer.swift", "target-membership": [ "SmartWeather/compile-sources" ] },
+                { "path": "SurfingScorer.swift", "target-membership": [ "SmartWeather/compile-sources" ] },
               ],
             },
           ],

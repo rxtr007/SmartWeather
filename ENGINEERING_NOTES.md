@@ -34,3 +34,11 @@
 - **Minimum implementation**: Created `SkiingScorer.swift` evaluating snowfall base, temperature bonuses/penalties, liquid rain penalties, wind hold penalties, and descriptive explanation synthesis.
 - **Passing outcome**: 38 tests passed. Ideal powder: 90 (Suitable); Cold groomed: 50 (Marginal); Warm slush: 0 (Unsuitable); High wind: 55 (Lift closures penalized).
 - **Commit**: `56f9cbb feat(scoring): implement SkiingScorer with TDD`
+
+### Cycle 3: Surfing Suitability Scoring Engine (`SurfingScorer`)
+- **Behavior under test**: Deterministic evaluation of wave height ($1.2\text{m}\dots2.4\text{m}$ sweet spot), wave period groundswell bonus ($>12\text{s}$), surface chop and onshore wind penalties ($>28\text{ km/h}$), and explicit `.unavailable` status when marine wave data is absent (inland locations).
+- **Test defined**: `SmartWeatherTests/SurfingScorerTests.swift`
+- **Expected failure observed**: Missing `SurfingScorer` symbol in scope.
+- **Minimum implementation**: Created `SurfingScorer.swift` validating marine metric presence, calculating height base, period groundswell bonus, surface texture wind penalties, and descriptive explanations.
+- **Passing outcome**: 50 tests passed. Ideal groundswell: 100 (Suitable); Flat waves: 0 (Unsuitable); Blown out wind: 30 (Unsuitable); Inland city: nil score and `.unavailable`.
+- **Commit**: (Pending Task 4 commit)
