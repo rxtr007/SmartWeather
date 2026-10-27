@@ -7,6 +7,7 @@
 - **Deployment Target**: iOS 27.1
 - **Simulator Device**: iPhone Duo (`688EF1D6-2896-4DD9-A266-3BD5CCD8B242`, iOS 27.1)
 - **Fast Test Harness**: macOS sub-second Swift 6 compiler runner (`Tools/run-domain-tests.sh`)
+- **Code Coverage**: 88.29% line coverage / 82.61% function coverage across all domain, data, network, and ViewModel logic via LLVM source-based instrumentation (`Tools/run-coverage.sh`)
 
 ## 2. Community Skills & Tooling Usage Record
 | Skill / Tool | Source Repository | Purpose / Phase | Status & Findings |
