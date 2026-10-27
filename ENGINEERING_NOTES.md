@@ -73,4 +73,12 @@
 - **Test defined**: Modernized all test suites (`SanityTests`, `DomainModelTests`, `SkiingScorerTests`, `SurfingScorerTests`, `OutdoorSightseeingScorerTests`, `IndoorSightseeingScorerTests`, `ActivityRankingEngineTests`).
 - **Runner integration**: Configured `Tools/run-domain-tests.sh` with Xcode 27.1 RC macOS `Testing.framework` search paths, runtime linker rpaths, and `libTestingMacros.dylib` compiler plugin.
 - **Passing outcome**: 25 tests in 7 suites executed in 0.004s with zero assertions failed.
-- **Commit**: `c8f3ea1 test: migrate domain unit tests to Apple Swift Testing framework`
+- **Commit**: `ab733a0 test: migrate domain unit tests to Apple Swift Testing framework`
+
+### Cycle 8: Open-Meteo DTOs & Domain WeatherMetricsMapper
+- **Behavior under test**: Decoding Open-Meteo wire JSON formats for Geocoding (`GeocodingResponse`, `GeocodingLocation`), Forecast (`ForecastResponse`, `DailyForecastData`), and Marine (`MarineResponse`, `DailyMarineData` with null wave handling). Mapping parallel meteorological arrays into domain `[DailyWeatherMetrics]` with resilient fallback for inland locations and array length discrepancies.
+- **Test defined**: `SmartWeatherTests/OpenMeteoDTOTests.swift` (6 tests).
+- **Expected failure observed**: Missing types `GeocodingResponse`, `ForecastResponse`, `MarineResponse`, `WeatherMetricsMapper` in scope.
+- **Minimum implementation**: Created `GeocodingResponse.swift`, `ForecastResponse.swift`, `MarineResponse.swift` in `SmartWeather/Data/DTOs/` and `WeatherMetricsMapper.swift` in `SmartWeather/Data/Mappers/`. Added Data groups to Xcode project.
+- **Passing outcome**: 31 tests in 8 suites passed in 0.008s. Full Xcode build succeeded with 0 warnings.
+- **Commit**: `62e0871 feat(data): implement Open-Meteo DTOs and WeatherMetricsMapper with TDD`

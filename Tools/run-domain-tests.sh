@@ -12,10 +12,10 @@ trap 'rm -rf "$OUT_DIR"' EXIT
 
 SOURCES=()
 
-if [ -d "$PROJECT_ROOT/SmartWeather/Domain" ]; then
+if [ -d "$PROJECT_ROOT/SmartWeather" ]; then
     while IFS= read -r -d '' file; do
         SOURCES+=("$file")
-    done < <(find "$PROJECT_ROOT/SmartWeather/Domain" -name "*.swift" -print0)
+    done < <(find "$PROJECT_ROOT/SmartWeather" -name "*.swift" -not -path "*/App/*" -print0)
 fi
 
 if [ -d "$PROJECT_ROOT/SmartWeatherTests" ]; then
