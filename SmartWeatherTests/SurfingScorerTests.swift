@@ -1,15 +1,10 @@
 import Foundation
+import Testing
 
+@Suite("Surfing Scorer Tests")
 struct SurfingScorerTests {
-    static func run() {
-        print("\n[SurfingScorerTests]")
-        testIdealGroundswell()
-        testFlatSummerConditions()
-        testBlownOutWindswell()
-        testInlandMissingMarineData()
-    }
-    
-    static func testIdealGroundswell() {
+    @Test("Ideal clean groundswell scores in suitable tier")
+    func idealGroundswell() throws {
         let metrics = DailyWeatherMetrics(
             date: Date(),
             temperatureMin: 18.0,
@@ -23,18 +18,15 @@ struct SurfingScorerTests {
         )
         
         let score = SurfingScorer.score(metrics: metrics)
-        guard let value = score.value else {
-            assertTrue(false, "Ideal surf should have a numeric score")
-            return
-        }
+        let value = try #require(score.value)
         
-        assertTrue(value >= 80, "Ideal 1.8m groundswell with light wind should score >= 80, got \(value)")
-        assertEqual(score.status, SuitabilityStatus.suitable, "Ideal surf should be suitable")
-        assertTrue(score.explanation.lowercased().contains("swell") || score.explanation.lowercased().contains("wave"),
-                   "Explanation should mention swell/waves")
+        #expect(value >= 80)
+        #expect(score.status == .suitable)
+        #expect(score.explanation.lowercased().contains("swell") || score.explanation.lowercased().contains("wave"))
     }
     
-    static func testFlatSummerConditions() {
+    @Test("Flat summer conditions score unsuitable")
+    func flatSummerConditions() throws {
         let metrics = DailyWeatherMetrics(
             date: Date(),
             temperatureMin: 20.0,
@@ -48,18 +40,15 @@ struct SurfingScorerTests {
         )
         
         let score = SurfingScorer.score(metrics: metrics)
-        guard let value = score.value else {
-            assertTrue(false, "Flat conditions should have a numeric score")
-            return
-        }
+        let value = try #require(score.value)
         
-        assertTrue(value <= 20, "Flat 0.3m wave should score <= 20, got \(value)")
-        assertEqual(score.status, SuitabilityStatus.unsuitable, "Flat surf should be unsuitable")
-        assertTrue(score.explanation.lowercased().contains("flat") || score.explanation.lowercased().contains("small"),
-                   "Explanation should describe flat/small waves")
+        #expect(value <= 20)
+        #expect(score.status == .unsuitable)
+        #expect(score.explanation.lowercased().contains("flat") || score.explanation.lowercased().contains("small"))
     }
     
-    static func testBlownOutWindswell() {
+    @Test("Blown out choppy windswell scores unsuitable")
+    func blownOutWindswell() throws {
         let metrics = DailyWeatherMetrics(
             date: Date(),
             temperatureMin: 15.0,
@@ -67,24 +56,21 @@ struct SurfingScorerTests {
             precipitationSum: 4.0,
             precipitationProbabilityMax: 60,
             snowfallSum: 0.0,
-            windSpeedMax: 42.0, // High wind
+            windSpeedMax: 42.0,
             waveHeightMax: 2.2,
-            wavePeriodMax: 7.0  // Short period
+            wavePeriodMax: 7.0
         )
         
         let score = SurfingScorer.score(metrics: metrics)
-        guard let value = score.value else {
-            assertTrue(false, "Blown-out conditions should have a numeric score")
-            return
-        }
+        let value = try #require(score.value)
         
-        assertTrue(value < 40, "Blown out 42 km/h wind with short period should score < 40, got \(value)")
-        assertEqual(score.status, SuitabilityStatus.unsuitable, "Blown out surf should be unsuitable")
-        assertTrue(score.explanation.lowercased().contains("wind") || score.explanation.lowercased().contains("chop"),
-                   "Explanation should describe wind or chop")
+        #expect(value < 40)
+        #expect(score.status == .unsuitable)
+        #expect(score.explanation.lowercased().contains("wind") || score.explanation.lowercased().contains("chop"))
     }
     
-    static func testInlandMissingMarineData() {
+    @Test("Inland coordinates missing marine wave data return unavailable status")
+    func inlandMissingMarineData() {
         let metrics = DailyWeatherMetrics(
             date: Date(),
             temperatureMin: 12.0,
@@ -93,15 +79,13 @@ struct SurfingScorerTests {
             precipitationProbabilityMax: 0,
             snowfallSum: 0.0,
             windSpeedMax: 10.0,
-            waveHeightMax: nil, // Inland location
-            wavePeriodMax: nil  // Inland location
+            waveHeightMax: nil,
+            wavePeriodMax: nil
         )
         
         let score = SurfingScorer.score(metrics: metrics)
-        assertTrue(score.value == nil, "Inland surf score must be nil")
-        assertEqual(score.status,
-                    SuitabilityStatus.unavailable(reason: "Marine wave data is unavailable for inland locations"),
-                    "Inland surf status must be unavailable")
-        assertTrue(score.explanation.contains("unavailable"), "Explanation should state data is unavailable")
+        #expect(score.value == nil)
+        #expect(score.status == .unavailable(reason: "Marine wave data is unavailable for inland locations"))
+        #expect(score.explanation.contains("unavailable"))
     }
 }

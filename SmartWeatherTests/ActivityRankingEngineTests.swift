@@ -1,15 +1,10 @@
 import Foundation
+import Testing
 
+@Suite("Activity Ranking Engine Tests")
 struct ActivityRankingEngineTests {
-    static func run() {
-        print("\n[ActivityRankingEngineTests]")
-        testDailyAssessmentEvaluation()
-        testRankingByScoreDescending()
-        testDeterministicTieBreaking()
-        testUnavailableScoresSortedLast()
-    }
-    
-    static func testDailyAssessmentEvaluation() {
+    @Test("DailyAssessment evaluates scores for all supported activities")
+    func dailyAssessmentEvaluation() {
         let metrics = DailyWeatherMetrics(
             date: Date(timeIntervalSince1970: 1730000000),
             temperatureMin: -5.0,
@@ -21,19 +16,18 @@ struct ActivityRankingEngineTests {
         )
         
         let assessment = DailyAssessment(metrics: metrics)
-        assertEqual(assessment.date, metrics.date, "Assessment date should match metrics date")
+        #expect(assessment.date == metrics.date)
         
         let skiScore = assessment.score(for: .skiing)
-        assertTrue(skiScore.value != nil, "Skiing score should be calculated")
-        assertEqual(skiScore.status, SuitabilityStatus.suitable, "Snow day should be suitable for skiing")
+        #expect(skiScore.value != nil)
+        #expect(skiScore.status == .suitable)
         
         let surfScore = assessment.score(for: .surfing)
-        assertEqual(surfScore.status,
-                    SuitabilityStatus.unavailable(reason: "Marine wave data is unavailable for inland locations"),
-                    "Inland surfing should be unavailable")
+        #expect(surfScore.status == .unavailable(reason: "Marine wave data is unavailable for inland locations"))
     }
     
-    static func testRankingByScoreDescending() {
+    @Test("Ranks 7-day assessments in descending order of activity suitability score")
+    func rankingByScoreDescending() throws {
         let baseDate = Date(timeIntervalSince1970: 1730000000)
         
         // Day 1: Marginal ski day (50)
@@ -61,23 +55,26 @@ struct ActivityRankingEngineTests {
         ))
         
         let ranked = ActivityRankingEngine.rank(assessments: [day1, day2, day3], for: .skiing)
-        assertEqual(ranked.count, 3, "All 3 days should be ranked")
+        #expect(ranked.count == 3)
+        let r0 = try #require(ranked.indices.contains(0) ? ranked[0] : nil)
+        let r1 = try #require(ranked.indices.contains(1) ? ranked[1] : nil)
+        let r2 = try #require(ranked.indices.contains(2) ? ranked[2] : nil)
         
-        // Expected order: Day 2 (best), Day 1 (second), Day 3 (worst)
-        assertEqual(ranked[0].assessment.date, day2.date, "Rank 1 should be Day 2")
-        assertEqual(ranked[0].rank, 1, "Rank 1 index")
+        #expect(r0.assessment.date == day2.date)
+        #expect(r0.rank == 1)
         
-        assertEqual(ranked[1].assessment.date, day1.date, "Rank 2 should be Day 1")
-        assertEqual(ranked[1].rank, 2, "Rank 2 index")
+        #expect(r1.assessment.date == day1.date)
+        #expect(r1.rank == 2)
         
-        assertEqual(ranked[2].assessment.date, day3.date, "Rank 3 should be Day 3")
-        assertEqual(ranked[2].rank, 3, "Rank 3 index")
+        #expect(r2.assessment.date == day3.date)
+        #expect(r2.rank == 3)
     }
     
-    static func testDeterministicTieBreaking() {
+    @Test("Breaks equal score ties deterministically by lower rain risk")
+    func deterministicTieBreaking() throws {
         let baseDate = Date(timeIntervalSince1970: 1730000000)
         
-        // Both days will receive score 75 for outdoor sightseeing, but Day A has 20% rain chance, Day B has 5%
+        // Both days receive score 75 for outdoor sightseeing, but Day A has 20% rain chance, Day B has 5%
         let dayA = DailyAssessment(metrics: DailyWeatherMetrics(
             date: baseDate,
             temperatureMin: 6.0, temperatureMax: 11.0,
@@ -93,14 +90,16 @@ struct ActivityRankingEngineTests {
         ))
         
         let ranked = ActivityRankingEngine.rank(assessments: [dayA, dayB], for: .outdoorSightseeing)
-        assertEqual(ranked.count, 2, "Both days should be ranked")
+        #expect(ranked.count == 2)
+        let r0 = try #require(ranked.indices.contains(0) ? ranked[0] : nil)
+        let r1 = try #require(ranked.indices.contains(1) ? ranked[1] : nil)
         
-        // Day B has lower precipitation risk, so it breaks the tie and takes rank 1
-        assertEqual(ranked[0].assessment.date, dayB.date, "Day B with lower rain risk should take Rank 1")
-        assertEqual(ranked[1].assessment.date, dayA.date, "Day A should take Rank 2")
+        #expect(r0.assessment.date == dayB.date)
+        #expect(r1.assessment.date == dayA.date)
     }
     
-    static func testUnavailableScoresSortedLast() {
+    @Test("Unavailable scores are safely sorted to the end of rankings")
+    func unavailableScoresSortedLast() throws {
         let baseDate = Date(timeIntervalSince1970: 1730000000)
         
         // Day 1: Has wave data (score 100)
@@ -122,10 +121,12 @@ struct ActivityRankingEngineTests {
         ))
         
         let ranked = ActivityRankingEngine.rank(assessments: [day2, day1], for: .surfing)
-        assertEqual(ranked[0].assessment.date, day1.date, "Day with valid surf data should rank first")
-        assertEqual(ranked[1].assessment.date, day2.date, "Unavailable surf day should be placed last")
-        assertEqual(ranked[1].score.status,
-                    SuitabilityStatus.unavailable(reason: "Marine wave data is unavailable for inland locations"),
-                    "Unavailable status preserved")
+        #expect(ranked.count == 2)
+        let r0 = try #require(ranked.indices.contains(0) ? ranked[0] : nil)
+        let r1 = try #require(ranked.indices.contains(1) ? ranked[1] : nil)
+        
+        #expect(r0.assessment.date == day1.date)
+        #expect(r1.assessment.date == day2.date)
+        #expect(r1.score.status == .unavailable(reason: "Marine wave data is unavailable for inland locations"))
     }
 }

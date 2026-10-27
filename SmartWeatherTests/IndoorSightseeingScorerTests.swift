@@ -1,42 +1,34 @@
 import Foundation
+import Testing
 
+@Suite("Indoor Sightseeing Scorer Tests")
 struct IndoorSightseeingScorerTests {
-    static func run() {
-        print("\n[IndoorSightseeingScorerTests]")
-        testRainyColdDayIndoorAppeal()
-        testExtremeHeatwaveIndoorAppeal()
-        testPristineOutdoorDayDampener()
-        testSevereStormTransitHazard()
-    }
-    
-    static func testRainyColdDayIndoorAppeal() {
+    @Test("Rainy cold day boosts indoor appeal into suitable tier")
+    func rainyColdDayIndoorAppeal() throws {
         let metrics = DailyWeatherMetrics(
             date: Date(),
             temperatureMin: 1.0,
-            temperatureMax: 4.0, // Cold
-            precipitationSum: 14.0, // Heavy rain
+            temperatureMax: 4.0,
+            precipitationSum: 14.0,
             precipitationProbabilityMax: 85,
             snowfallSum: 0.0,
             windSpeedMax: 15.0
         )
         
         let score = IndoorSightseeingScorer.score(metrics: metrics)
-        guard let value = score.value else {
-            assertTrue(false, "Indoor score should have numeric value")
-            return
-        }
+        let value = try #require(score.value)
         
-        assertTrue(value >= 85, "Rainy, cold day should boost indoor score >= 85, got \(value)")
-        assertEqual(score.status, SuitabilityStatus.suitable, "Indoor should be suitable on rainy cold days")
-        assertTrue(score.explanation.lowercased().contains("rain") || score.explanation.lowercased().contains("cold"),
-                   "Explanation should highlight rain or cold outdoor conditions")
+        #expect(value >= 85)
+        #expect(score.status == .suitable)
+        #expect(score.explanation.lowercased().contains("rain") || score.explanation.lowercased().contains("cold"))
     }
     
-    static func testExtremeHeatwaveIndoorAppeal() {
+    @Test("Extreme heatwave boosts air-conditioned indoor appeal")
+    func extremeHeatwaveIndoorAppeal() throws {
         let metrics = DailyWeatherMetrics(
             date: Date(),
             temperatureMin: 25.0,
-            temperatureMax: 36.0, // Sweltering heat
+            temperatureMax: 36.0,
             precipitationSum: 0.0,
             precipitationProbabilityMax: 0,
             snowfallSum: 0.0,
@@ -44,22 +36,19 @@ struct IndoorSightseeingScorerTests {
         )
         
         let score = IndoorSightseeingScorer.score(metrics: metrics)
-        guard let value = score.value else {
-            assertTrue(false, "Indoor score should have numeric value")
-            return
-        }
+        let value = try #require(score.value)
         
-        assertTrue(value >= 80, "Heatwave should boost indoor score >= 80, got \(value)")
-        assertEqual(score.status, SuitabilityStatus.suitable, "Indoor should be suitable during heatwave")
-        assertTrue(score.explanation.lowercased().contains("heat") || score.explanation.lowercased().contains("air-conditioned") || score.explanation.lowercased().contains("relief"),
-                   "Explanation should highlight heat relief")
+        #expect(value >= 80)
+        #expect(score.status == .suitable)
+        #expect(score.explanation.lowercased().contains("heat") || score.explanation.lowercased().contains("air-conditioned") || score.explanation.lowercased().contains("relief"))
     }
     
-    static func testPristineOutdoorDayDampener() {
+    @Test("Pristine outdoor day dampens indoor appeal to fair/marginal")
+    func pristineOutdoorDayDampener() throws {
         let metrics = DailyWeatherMetrics(
             date: Date(),
             temperatureMin: 15.0,
-            temperatureMax: 22.0, // Perfect outdoor day
+            temperatureMax: 22.0,
             precipitationSum: 0.0,
             precipitationProbabilityMax: 5,
             snowfallSum: 0.0,
@@ -67,36 +56,29 @@ struct IndoorSightseeingScorerTests {
         )
         
         let score = IndoorSightseeingScorer.score(metrics: metrics)
-        guard let value = score.value else {
-            assertTrue(false, "Indoor score should have numeric value")
-            return
-        }
+        let value = try #require(score.value)
         
-        assertTrue(value >= 40 && value <= 65, "Pristine sunny day should yield marginal/fair indoor score (40-65), got \(value)")
-        assertTrue(score.explanation.lowercased().contains("outdoor") || score.explanation.lowercased().contains("pleasant"),
-                   "Explanation should mention pleasant outdoor alternative")
+        #expect(value >= 40 && value <= 65)
+        #expect(score.explanation.lowercased().contains("outdoor") || score.explanation.lowercased().contains("pleasant"))
     }
     
-    static func testSevereStormTransitHazard() {
+    @Test("Severe storm transit hazard safeguards indoor sightseeing to unsuitable")
+    func severeStormTransitHazard() throws {
         let metrics = DailyWeatherMetrics(
             date: Date(),
             temperatureMin: 10.0,
             temperatureMax: 14.0,
-            precipitationSum: 48.0, // Torrential rain
+            precipitationSum: 48.0,
             precipitationProbabilityMax: 100,
             snowfallSum: 0.0,
-            windSpeedMax: 72.0      // Dangerous gale
+            windSpeedMax: 72.0
         )
         
         let score = IndoorSightseeingScorer.score(metrics: metrics)
-        guard let value = score.value else {
-            assertTrue(false, "Indoor score should have numeric value")
-            return
-        }
+        let value = try #require(score.value)
         
-        assertTrue(value < 40, "Dangerous storm hazards should penalize score to < 40, got \(value)")
-        assertEqual(score.status, SuitabilityStatus.unsuitable, "Severe storm transit hazards make indoor sightseeing unsuitable")
-        assertTrue(score.explanation.lowercased().contains("storm") || score.explanation.lowercased().contains("transit") || score.explanation.lowercased().contains("hazard"),
-                   "Explanation should warn of travel or storm hazards")
+        #expect(value < 40)
+        #expect(score.status == .unsuitable)
+        #expect(score.explanation.lowercased().contains("storm") || score.explanation.lowercased().contains("transit") || score.explanation.lowercased().contains("hazard"))
     }
 }

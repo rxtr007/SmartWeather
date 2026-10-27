@@ -29,10 +29,17 @@ if [ ${#SOURCES[@]} -eq 0 ]; then
     exit 1
 fi
 
+TESTING_FRAMEWORKS="$DEVELOPER_DIR/Platforms/MacOSX.platform/Developer/Library/Frameworks"
+TESTING_MACROS="$DEVELOPER_DIR/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing/libTestingMacros.dylib"
+
 xcrun --sdk macosx swiftc \
     -swift-version 6 \
     -parse-as-library \
     -default-isolation MainActor \
+    -F "$TESTING_FRAMEWORKS" \
+    -framework Testing \
+    -Xlinker -rpath -Xlinker "$TESTING_FRAMEWORKS" \
+    -load-plugin-library "$TESTING_MACROS" \
     -o "$OUT_DIR/test-runner" \
     "${SOURCES[@]}"
 

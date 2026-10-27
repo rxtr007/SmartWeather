@@ -1,15 +1,10 @@
 import Foundation
+import Testing
 
+@Suite("Skiing Scorer Tests")
 struct SkiingScorerTests {
-    static func run() {
-        print("\n[SkiingScorerTests]")
-        testIdealPowderDay()
-        testColdGroomedSnowDay()
-        testWarmRainSlushDay()
-        testHighWindLiftClosureDay()
-    }
-    
-    static func testIdealPowderDay() {
+    @Test("Ideal powder snow day scores in suitable tier with snow explanation")
+    func idealPowderDay() throws {
         let metrics = DailyWeatherMetrics(
             date: Date(),
             temperatureMin: -8.0,
@@ -21,16 +16,15 @@ struct SkiingScorerTests {
         )
         
         let score = SkiingScorer.score(metrics: metrics)
-        assertTrue(score.value != nil, "Score value should be present")
-        guard let value = score.value else { return }
+        let value = try #require(score.value)
         
-        assertTrue(value >= 80, "Ideal powder day should score >= 80, got \(value)")
-        assertEqual(score.status, SuitabilityStatus.suitable, "Ideal day should be suitable")
-        assertTrue(score.explanation.lowercased().contains("powder") || score.explanation.lowercased().contains("snow"),
-                   "Explanation should highlight snowfall")
+        #expect(value >= 80)
+        #expect(score.status == .suitable)
+        #expect(score.explanation.lowercased().contains("powder") || score.explanation.lowercased().contains("snow"))
     }
     
-    static func testColdGroomedSnowDay() {
+    @Test("Cold groomed day with no fresh snow scores marginal")
+    func coldGroomedSnowDay() throws {
         let metrics = DailyWeatherMetrics(
             date: Date(),
             temperatureMin: -6.0,
@@ -42,16 +36,14 @@ struct SkiingScorerTests {
         )
         
         let score = SkiingScorer.score(metrics: metrics)
-        guard let value = score.value else {
-            assertTrue(false, "Score value should be present")
-            return
-        }
+        let value = try #require(score.value)
         
-        assertTrue(value >= 35 && value <= 65, "Cold day with no fresh snow should score marginal (35-65), got \(value)")
-        assertEqual(score.status, SuitabilityStatus.marginal, "Status should be marginal without fresh snow")
+        #expect(value >= 35 && value <= 65)
+        #expect(score.status == .marginal)
     }
     
-    static func testWarmRainSlushDay() {
+    @Test("Warm rainy day scores unsuitable due to slush and rain")
+    func warmRainSlushDay() throws {
         let metrics = DailyWeatherMetrics(
             date: Date(),
             temperatureMin: 3.0,
@@ -63,18 +55,15 @@ struct SkiingScorerTests {
         )
         
         let score = SkiingScorer.score(metrics: metrics)
-        guard let value = score.value else {
-            assertTrue(false, "Score value should be present")
-            return
-        }
+        let value = try #require(score.value)
         
-        assertTrue(value < 30, "Warm rainy day should score < 30, got \(value)")
-        assertEqual(score.status, SuitabilityStatus.unsuitable, "Warm rainy day should be unsuitable")
-        assertTrue(score.explanation.lowercased().contains("rain") || score.explanation.lowercased().contains("warm") || score.explanation.lowercased().contains("slush"),
-                   "Explanation should explain rain or above-freezing thaw")
+        #expect(value < 30)
+        #expect(score.status == .unsuitable)
+        #expect(score.explanation.lowercased().contains("rain") || score.explanation.lowercased().contains("warm") || score.explanation.lowercased().contains("slush"))
     }
     
-    static func testHighWindLiftClosureDay() {
+    @Test("High gale winds penalize score due to lift closure risks")
+    func highWindLiftClosureDay() throws {
         let metrics = DailyWeatherMetrics(
             date: Date(),
             temperatureMin: -10.0,
@@ -86,12 +75,9 @@ struct SkiingScorerTests {
         )
         
         let score = SkiingScorer.score(metrics: metrics)
-        guard let value = score.value else {
-            assertTrue(false, "Score value should be present")
-            return
-        }
+        let value = try #require(score.value)
         
-        assertTrue(value < 65, "Gale winds (>60 km/h) should penalize score to < 65 due to lift closures, got \(value)")
-        assertTrue(score.explanation.lowercased().contains("wind"), "Explanation should warn about strong winds")
+        #expect(value < 65)
+        #expect(score.explanation.lowercased().contains("wind"))
     }
 }

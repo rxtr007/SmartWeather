@@ -13,6 +13,7 @@
 | :--- | :--- | :--- | :--- |
 | `duo-doctor` | `Kimeur/duology` | Phase A Environment validation | **Passed**: All 6 required checks verified (Xcode 27.1 RC, iOS 27.1 SDK, Duo device). |
 | `duo-lint` | `Kimeur/duology` | Continuous static analysis (DUO001–DUO009) | **Active**: 0 warnings across all project Swift files. |
+| `swift-testing-expert` | `AvdLee/swift-testing-agent-skill` | Test architecture & assertions | **Active**: Modern Apple Swift Testing framework (`@Suite`, `@Test`, `#expect`, `#require`). |
 | `agent-skills` | `addyosmani/agent-skills` | TDD & incremental implementation | **Active**: Guiding red-green-refactor cycles and small-task scoping. |
 | `swiftui-pro` | `twostraws/swiftui-agent-skill` | SwiftUI architecture & best practices | **Active**: Enforcing clean data flow, modern Swift 6 patterns, and view composition. |
 | `swiftui-iphone-duo` | `FloWritesCode/fwc-swiftui-skills` | Adaptive layout & fold guidelines | **Active**: Tier 1 universal adaptive -> Tier 2 fold-safe layout plan. |
@@ -65,4 +66,11 @@
 - **Expected failure observed**: Missing `DailyAssessment` and `ActivityRankingEngine` symbols in scope.
 - **Minimum implementation**: Created `DailyAssessment.swift` and `ActivityRankingEngine.swift` returning `[RankedDay]` with 1-based ranks.
 - **Passing outcome**: 88 tests passed. Multi-day ranking, tie-breaking by rain risk, and unavailable placement verified.
-- **Commit**: (Pending Task 7 commit)
+- **Commit**: `2d94d69 feat(domain): implement DailyAssessment and ActivityRankingEngine with TDD`
+
+### Cycle 7: Swift Testing Framework Modernization
+- **Behavior under test**: Migrating all unit, domain, and ranking tests to Apple's modern `import Testing` framework. Adopting `@Suite`, `@Test`, `#expect`, and `#require` for clean preconditions without manual guard boilerplate.
+- **Test defined**: Modernized all test suites (`SanityTests`, `DomainModelTests`, `SkiingScorerTests`, `SurfingScorerTests`, `OutdoorSightseeingScorerTests`, `IndoorSightseeingScorerTests`, `ActivityRankingEngineTests`).
+- **Runner integration**: Configured `Tools/run-domain-tests.sh` with Xcode 27.1 RC macOS `Testing.framework` search paths, runtime linker rpaths, and `libTestingMacros.dylib` compiler plugin.
+- **Passing outcome**: 25 tests in 7 suites executed in 0.004s with zero assertions failed.
+- **Commit**: `c8f3ea1 test: migrate domain unit tests to Apple Swift Testing framework`

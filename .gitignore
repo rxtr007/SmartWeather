@@ -5,3 +5,7 @@ build/
 *.xcuserstate
 *.xcuserdatad
 .idea/
+
+# Agent Skills
+.agents/
+skills-lock.json
