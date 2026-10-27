@@ -34,6 +34,9 @@ struct TestRunner {
         // Domain Model Tests
         DomainModelTests.run()
         
+        // Skiing Scorer Tests
+        SkiingScorerTests.run()
+        
         print("\nResults: \(testPasses) passed, \(testFailures) failed.")
         if testFailures > 0 {
             exit(1)
