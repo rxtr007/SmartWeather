@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+echo "=================================================="
+echo "🛡️  Running SmartWeather Pre-Commit Verification"
+echo "=================================================="
+
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+
+# 1. Run Domain & ViewModel Unit Tests (Swift Testing)
+echo "▶ Running Swift Testing test suites..."
+"${REPO_ROOT}/Tools/run-domain-tests.sh"
+
+# 2. Run Security & Compliance Scans
+echo "▶ Running Security & Conformance checks..."
+"${REPO_ROOT}/Tools/run-security-scan.sh"
+
+echo "=================================================="
+echo "✅ All pre-commit checks passed cleanly!"
+echo "=================================================="
