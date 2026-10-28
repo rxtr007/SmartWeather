@@ -103,4 +103,35 @@
 ### Cycle 11: SwiftUI Presentation Layer & iPhone Duo Responsive Layouts
 - **Behavior under test**: Native SwiftUI interface providing first-class user experience across conventional single-display iPhones and the foldable iPhone Duo. Includes compact single-pane layout (`CompactPlannerView`) and dual-pane split view (`ExpandedPlannerView`), with horizontal activity filter pill bar (`ActivityPickerBar`), ranked forecast day card with score badges (`RankedDayCard`), full meteorological detail inspector (`DayDetailView`), and debounced search field with suggestions (`LocationSearchBar`). Guarantees state continuity across fold/unfold postures by binding both views to the same `WeatherPlannerViewModel` instance.
 - **Verification**: Zero DUO001–DUO009 lint warnings (`duo-lint`). Full Xcode 27.1 RC compilation for iOS Simulator succeeded with 0 warnings. 42 unit tests passed in 0.053s.
-- **Commit**: `5a8ee8e feat(ui): implement responsive SwiftUI views and iPhone Duo layouts`
+- **Commit**: `9a870d4 feat(ui): implement responsive SwiftUI views and iPhone Duo layouts`
+
+### Cycle 12A: Concurrency Hardening & Forecast Task Cancellation
+- **Behavior under test**: Deterministic cancellation of earlier in-flight forecast tasks when rapid location selections occur. Hardened `@discardableResult public func selectLocation(_ location: GeocodingLocation) -> Task<Void, Never>` to store the active task synchronously on `@MainActor`, cancelling any prior task and cleanly catching `CancellationError` without surfacing spurious error alerts.
+- **Test defined**: `rapidLocationSelectionCancelsEarlierTask` in `SmartWeatherTests/WeatherPlannerViewModelTests.swift`.
+- **Expected failure observed**: Initial compilation failure as `selectLocation` was previously `async` without returning the retained task handle.
+- **Minimum implementation**: Updated `selectLocation` to launch and retain `self.forecastTask`, allowing SwiftUI callers to trigger location changes without launching uncoordinated detached tasks.
+- **Passing outcome**: 43 tests in 10 suites passed in 0.058s. LLVM line coverage verified at 88.51%.
+- **Commit**: `28fdffe feat(concurrency): harden forecast task ownership and cancellation in WeatherPlannerViewModel`
+
+### Cycle 12B: Mobile Security Gate & Staged Pre-Commit Hook
+- **Behavior under test**: Continuous static analysis protecting against secret leaks, insecure HTTP transport, dual-screen guideline violations, and OWASP mobile vulnerabilities.
+- **Tooling integrated**: `mobsfscan` (MobSF Mobile Security Scanner), `duo-lint`, and ATS regex checks inside `Tools/run-security-scan.sh`.
+- **Pre-commit configuration**: Created tracked `.githooks/pre-commit` configured via `git config core.hooksPath .githooks`. Automatically executes both `run-domain-tests.sh` and `run-security-scan.sh` before allowing commits.
+- **Verification**: 0 secrets detected, 0 cleartext HTTP endpoints, 0 duo-lint findings, 0 high/critical MobSFScan findings.
+- **Commit**: `13d4b03 feat(security): add MobSFScan static analysis and pre-commit security hook`
+
+### Cycle 12C: UI/UX Refinement & Semantic Design Tokens
+- **Behavior under test**: Elimination of duplicated badge styling across cards and detail screens by extracting `SuitabilityBadgeView` supporting `.compactPill` and `.prominentBanner` styles. Introduced semantic color token `Color.suitabilityColor(for:)` in `Color+AppTheme.swift` with enhanced contrast and accessible VoiceOver descriptions.
+- **Verification**: App build succeeded with 0 warnings. 0 duo-lint violations across 37 files.
+- **Commit**: `cd9b84f feat(ui): refine visual hierarchy and extract reusable SuitabilityBadgeView`
+
+### Cycle 12D: iPhone Duo Simulator Verification & Demo Video Recording
+- **Behavior under test**: End-to-end verification on the physical simulator hardware abstraction for iPhone Duo (`688EF1D6-2896-4DD9-A266-3BD5CCD8B242`).
+- **Artifacts produced**:
+  - `Screenshots/duo-outer-display.png`: Closed compact cover display (1398 × 2034).
+  - `Screenshots/duo-inner-display.png`: Unfolded dual-pane display (2007 × 2853).
+  - `Screenshots/demo-outer.mp4`: H.264 video capture of outer display interaction.
+  - `Screenshots/demo-inner.mp4`: H.264 video capture of inner display interaction.
+  - `Tools/record-demo.sh`: Repeatable video capture utility using `simctl io recordVideo`.
+- **Commit**: `2960d9d feat(verification): capture iPhone Duo simulator dual-display screenshots and demo recordings`
+
