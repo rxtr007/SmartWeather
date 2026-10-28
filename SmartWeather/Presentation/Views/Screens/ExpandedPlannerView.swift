@@ -22,9 +22,7 @@ public struct ExpandedPlannerView: View {
                     isSearching: viewModel.isSearching,
                     suggestions: viewModel.searchResults,
                     onSelect: { location in
-                        Task {
-                            await viewModel.selectLocation(location)
-                        }
+                        viewModel.selectLocation(location)
                     }
                 )
                 .padding(.top, 8)

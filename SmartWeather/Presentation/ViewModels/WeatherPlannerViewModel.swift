@@ -79,6 +79,8 @@ public final class WeatherPlannerViewModel {
                 guard !Task.isCancelled else { return }
                 self.searchResults = results
                 self.isSearching = false
+            } catch is CancellationError {
+                return
             } catch {
                 guard !Task.isCancelled else { return }
                 guard let self else { return }
@@ -89,8 +91,9 @@ public final class WeatherPlannerViewModel {
         }
     }
 
-    /// Selects a location, cancels pending searches, and fetches 7-day weather metrics.
-    public func selectLocation(_ location: GeocodingLocation) async {
+    /// Selects a location, cancels pending searches and prior forecast fetches, and retrieves 7-day weather metrics.
+    @discardableResult
+    public func selectLocation(_ location: GeocodingLocation) -> Task<Void, Never> {
         searchTask?.cancel()
         searchTask = nil
         forecastTask?.cancel()
@@ -101,22 +104,30 @@ public final class WeatherPlannerViewModel {
         isLoadingForecast = true
         errorMessage = nil
 
-        do {
-            let metrics = try await weatherService.fetchDailyMetrics(
-                latitude: location.latitude,
-                longitude: location.longitude
-            )
-            guard !Task.isCancelled else { return }
-            self.dailyAssessments = metrics.map { DailyAssessment(metrics: $0) }
-            self.selectedDay = self.rankedDays.first
-            self.isLoadingForecast = false
-        } catch {
-            guard !Task.isCancelled else { return }
-            self.dailyAssessments = []
-            self.selectedDay = nil
-            self.isLoadingForecast = false
-            self.errorMessage = error.localizedDescription
+        let task = Task { [weak self] in
+            guard let self else { return }
+            do {
+                let metrics = try await self.weatherService.fetchDailyMetrics(
+                    latitude: location.latitude,
+                    longitude: location.longitude
+                )
+                guard !Task.isCancelled else { return }
+                self.dailyAssessments = metrics.map { DailyAssessment(metrics: $0) }
+                self.selectedDay = self.rankedDays.first
+                self.isLoadingForecast = false
+            } catch is CancellationError {
+                return
+            } catch {
+                guard !Task.isCancelled else { return }
+                self.dailyAssessments = []
+                self.selectedDay = nil
+                self.isLoadingForecast = false
+                self.errorMessage = error.localizedDescription
+            }
         }
+
+        self.forecastTask = task
+        return task
     }
 
     /// Selects an activity filter, triggering recalculation of daily ranking orders.

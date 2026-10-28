@@ -8,6 +8,7 @@ final class MockWeatherService: WeatherServiceProtocol, @unchecked Sendable {
     private(set) var searchCallCount = 0
     private(set) var fetchMetricsCallCount = 0
     var searchDelayNanoseconds: UInt64 = 0
+    var fetchMetricsDelayNanoseconds: UInt64 = 0
 
     func searchLocations(query: String) async throws -> [GeocodingLocation] {
         searchCallCount += 1
@@ -19,6 +20,9 @@ final class MockWeatherService: WeatherServiceProtocol, @unchecked Sendable {
 
     func fetchDailyMetrics(latitude: Double, longitude: Double) async throws -> [DailyWeatherMetrics] {
         fetchMetricsCallCount += 1
+        if fetchMetricsDelayNanoseconds > 0 {
+            try await Task.sleep(nanoseconds: fetchMetricsDelayNanoseconds)
+        }
         return try fetchDailyMetricsResult.get()
     }
 }
@@ -107,7 +111,7 @@ struct WeatherPlannerViewModelTests {
         mock.fetchDailyMetricsResult = .success(sampleMetrics)
         let vm = WeatherPlannerViewModel(weatherService: mock, debounceNanoseconds: 0)
 
-        await vm.selectLocation(sampleLocation)
+        await vm.selectLocation(sampleLocation).value
 
         #expect(vm.selectedLocation?.name == "Innsbruck")
         #expect(vm.isLoadingForecast == false)
@@ -130,7 +134,7 @@ struct WeatherPlannerViewModelTests {
         mock.fetchDailyMetricsResult = .failure(OpenMeteoError.httpError(statusCode: 503))
         let vm = WeatherPlannerViewModel(weatherService: mock, debounceNanoseconds: 0)
 
-        await vm.selectLocation(sampleLocation)
+        await vm.selectLocation(sampleLocation).value
 
         #expect(vm.isLoadingForecast == false)
         #expect(vm.errorMessage != nil)
@@ -145,7 +149,7 @@ struct WeatherPlannerViewModelTests {
         mock.fetchDailyMetricsResult = .success(sampleMetrics)
         let vm = WeatherPlannerViewModel(weatherService: mock, debounceNanoseconds: 0)
 
-        await vm.selectLocation(sampleLocation)
+        await vm.selectLocation(sampleLocation).value
 
         #expect(vm.selectedActivity == .skiing)
         let skiBestDay = vm.bestDayForSelectedActivity
@@ -156,5 +160,55 @@ struct WeatherPlannerViewModelTests {
 
         #expect(skiBestDay != nil)
         #expect(outdoorBestDay != nil)
+    }
+
+    @Test("Rapid location selection cancels earlier in-flight forecast tasks")
+    func rapidLocationSelectionCancelsEarlierTask() async {
+        let mock = MockWeatherService()
+        let innsbruckMetrics = makeSampleMetrics(count: 3)
+        let honoluluMetrics = [
+            DailyWeatherMetrics(
+                date: Date(),
+                temperatureMin: 22.0,
+                temperatureMax: 28.0,
+                precipitationSum: 0.0,
+                precipitationProbabilityMax: 10,
+                snowfallSum: 0.0,
+                windSpeedMax: 12.0,
+                waveHeightMax: 1.8,
+                wavePeriodMax: 13.0
+            )
+        ]
+
+        let honoluluLocation = GeocodingLocation(
+            id: 200,
+            name: "Honolulu",
+            latitude: 21.3069,
+            longitude: -157.8583,
+            countryCode: "US",
+            country: "United States",
+            admin1: "Hawaii"
+        )
+
+        let vm = WeatherPlannerViewModel(weatherService: mock, debounceNanoseconds: 0)
+
+        // Set Innsbruck with simulated network latency
+        mock.fetchDailyMetricsResult = .success(innsbruckMetrics)
+        mock.fetchMetricsDelayNanoseconds = 100_000_000 // 100ms
+        let innsbruckTask = vm.selectLocation(sampleLocation)
+
+        // Immediately switch to Honolulu with 0 latency
+        mock.fetchDailyMetricsResult = .success(honoluluMetrics)
+        mock.fetchMetricsDelayNanoseconds = 0
+        let honoluluTask = vm.selectLocation(honoluluLocation)
+
+        // Await Honolulu completion
+        await honoluluTask.value
+        _ = await innsbruckTask.result
+
+        // Honolulu must win; Innsbruck's slower response must have been cancelled
+        #expect(vm.selectedLocation?.name == "Honolulu")
+        #expect(vm.dailyAssessments.count == 1)
+        #expect(vm.dailyAssessments.first?.metrics.temperatureMax == 28.0)
     }
 }

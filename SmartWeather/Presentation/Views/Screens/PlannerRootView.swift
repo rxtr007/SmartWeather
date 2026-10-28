@@ -31,7 +31,7 @@ public struct PlannerRootView: View {
                     country: "Austria",
                     admin1: "Tyrol"
                 )
-                await viewModel.selectLocation(defaultLocation)
+                await viewModel.selectLocation(defaultLocation).value
             }
         }
     }
