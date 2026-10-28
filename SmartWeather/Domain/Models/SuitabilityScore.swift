@@ -10,6 +10,8 @@ public enum SuitabilityStatus: Sendable, Equatable, Hashable, Codable {
 
 /// A deterministic evaluation score (0-100) or unavailable state with explanation.
 public struct SuitabilityScore: Sendable, Equatable, Hashable, Codable {
+    public typealias Status = SuitabilityStatus
+
     /// Integer score between 0 and 100, or nil if data is unavailable.
     public let value: Int?
     

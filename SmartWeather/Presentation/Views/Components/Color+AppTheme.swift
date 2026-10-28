@@ -28,4 +28,18 @@ extension Color {
         Color.secondary.opacity(0.2)
         #endif
     }
+
+    /// Semantic color for activity suitability tiers ensuring high contrast in light & dark modes.
+    public static func suitabilityColor(for status: SuitabilityScore.Status) -> Color {
+        switch status {
+        case .suitable:
+            return .green
+        case .marginal:
+            return .orange
+        case .unsuitable:
+            return .red
+        case .unavailable:
+            return .secondary
+        }
+    }
 }

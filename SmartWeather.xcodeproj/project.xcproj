@@ -104,6 +104,7 @@
                     { "path": "DayDetailView.swift", "target-membership": [ "SmartWeather/compile-sources" ] },
                     { "path": "LocationSearchBar.swift", "target-membership": [ "SmartWeather/compile-sources" ] },
                     { "path": "RankedDayCard.swift", "target-membership": [ "SmartWeather/compile-sources" ] },
+                    { "path": "SuitabilityBadgeView.swift", "target-membership": [ "SmartWeather/compile-sources" ] },
                   ],
                 },
                 {

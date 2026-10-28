@@ -62,31 +62,7 @@ public struct DayDetailView: View {
     }
 
     private var scoreBanner: some View {
-        HStack(alignment: .center) {
-            VStack(alignment: .leading, spacing: 4) {
-                Text("Suitability Assessment")
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-
-                Text(statusTitle)
-                    .font(.title.bold())
-                    .foregroundStyle(statusColor)
-            }
-
-            Spacer()
-
-            if let value = rankedDay.score.value {
-                Text("\(value)")
-                    .font(.system(size: 44, weight: .bold, design: .rounded))
-                    .foregroundStyle(statusColor)
-            } else {
-                Text("N/A")
-                    .font(.title.bold())
-                    .foregroundStyle(.secondary)
-            }
-        }
-        .padding(16)
-        .background(RoundedRectangle(cornerRadius: 16, style: .continuous).fill(Color.appSecondaryGroupedBackground))
+        SuitabilityBadgeView(score: rankedDay.score, style: .prominentBanner)
     }
 
     private var explanationSection: some View {
@@ -205,24 +181,6 @@ public struct DayDetailView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(12)
         .background(RoundedRectangle(cornerRadius: 12, style: .continuous).fill(Color.appTertiaryGroupedBackground))
-    }
-
-    private var statusTitle: String {
-        switch rankedDay.score.status {
-        case .suitable: return "Suitable"
-        case .marginal: return "Marginal"
-        case .unsuitable: return "Unsuitable"
-        case .unavailable: return "Unavailable"
-        }
-    }
-
-    private var statusColor: Color {
-        switch rankedDay.score.status {
-        case .suitable: return .green
-        case .marginal: return .orange
-        case .unsuitable: return .red
-        case .unavailable: return .secondary
-        }
     }
 
     private func colorForScore(_ value: Int) -> Color {

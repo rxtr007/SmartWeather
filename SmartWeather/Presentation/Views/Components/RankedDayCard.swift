@@ -46,7 +46,7 @@ public struct RankedDayCard: View {
 
             // Status & Explanation Preview
             HStack(spacing: 8) {
-                statusPill
+                SuitabilityBadgeView(score: rankedDay.score, style: .compactPill)
                 Text(rankedDay.score.explanation)
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
@@ -85,31 +85,8 @@ public struct RankedDayCard: View {
         }
     }
 
-    private var statusPill: some View {
-        Text(statusTitle)
-            .font(.caption2.weight(.semibold))
-            .padding(.horizontal, 7)
-            .padding(.vertical, 3)
-            .background(statusColor.opacity(0.18), in: Capsule())
-            .foregroundStyle(statusColor)
-    }
-
-    private var statusTitle: String {
-        switch rankedDay.score.status {
-        case .suitable: return "Suitable"
-        case .marginal: return "Marginal"
-        case .unsuitable: return "Unsuitable"
-        case .unavailable: return "Unavailable"
-        }
-    }
-
     private var statusColor: Color {
-        switch rankedDay.score.status {
-        case .suitable: return .green
-        case .marginal: return .orange
-        case .unsuitable: return .red
-        case .unavailable: return .secondary
-        }
+        Color.suitabilityColor(for: rankedDay.score.status)
     }
 
     private var metricsRow: some View {
