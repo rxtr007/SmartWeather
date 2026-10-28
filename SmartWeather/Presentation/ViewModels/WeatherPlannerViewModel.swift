@@ -98,6 +98,7 @@ public final class WeatherPlannerViewModel {
         searchTask = nil
         forecastTask?.cancel()
 
+        searchQuery = location.name
         selectedLocation = location
         searchResults = []
         isSearching = false

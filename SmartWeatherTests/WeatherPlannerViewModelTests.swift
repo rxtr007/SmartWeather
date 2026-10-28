@@ -128,6 +128,18 @@ struct WeatherPlannerViewModelTests {
         #expect(vm.selectedDay?.rank == 1)
     }
 
+    @Test("Selecting a location updates search query with selected city name")
+    func selectLocationUpdatesSearchQuery() async {
+        let mock = MockWeatherService()
+        let vm = WeatherPlannerViewModel(weatherService: mock, debounceNanoseconds: 0)
+        vm.searchQuery = "Inns"
+
+        await vm.selectLocation(sampleLocation).value
+
+        #expect(vm.searchQuery == "Innsbruck")
+        #expect(vm.selectedLocation?.name == "Innsbruck")
+    }
+
     @Test("Selecting location handles forecast failure with error message")
     func selectLocationError() async {
         let mock = MockWeatherService()

@@ -135,3 +135,11 @@
   - `Tools/record-demo.sh`: Repeatable video capture utility using `simctl io recordVideo`.
 - **Commit**: `2960d9d feat(verification): capture iPhone Duo simulator dual-display screenshots and demo recordings`
 
+### Cycle 12E: Search Field Synchronization on Location Selection
+- **Behavior under test**: When a user enters a partial query (e.g. "Chopt") and selects a location from the autocomplete dropdown (e.g. "Chopta, Uttarakhand, India"), the search field text must immediately update to the selected city's full name (`location.name`), maintaining single source of truth across `@Observable WeatherPlannerViewModel` and `LocationSearchBar`.
+- **Test defined**: `@Test("Selecting a location updates search query with selected city name")` in `SmartWeatherTests/WeatherPlannerViewModelTests.swift`.
+- **Expected failure observed**: `Expectation failed: vm.searchQuery == "Innsbruck" (observed: "Inns")`.
+- **Minimum implementation**: Assigned `searchQuery = location.name` inside `selectLocation(_:)` in `SmartWeather/Presentation/ViewModels/WeatherPlannerViewModel.swift` alongside existing clearing of search results and in-flight search task cancellation.
+- **Passing outcome**: All 44 tests in 10 suites passed in 0.055s. Code coverage maintained at 88.52%. Security scan passed with 0 findings.
+
+
