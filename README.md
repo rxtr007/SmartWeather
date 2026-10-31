@@ -84,12 +84,12 @@ xcrun simctl launch 688EF1D6-2896-4DD9-A266-3BD5CCD8B242 com.example.SmartWeathe
 
 ### Working Examples & Video Walkthroughs
 
-The [`videos/`](file:///Users/provider.op/orca/workspaces/SmartWeather/scratch-1/videos/) directory contains working video demonstrations of SmartWeather running on both a physical device and the foldable iPhone Duo simulator:
+The [`videos/`](https://github.com/rxtr007/SmartWeather/tree/f54c7a76f57ee76445698be94f95c39ecc0e690e/videos) directory contains working video demonstrations of SmartWeather running on both a physical device and the foldable iPhone Duo simulator:
 
 | Demo Video                                                                                                                                                   | Environment                              | Key Behaviors Demonstrated                                                                                                                           |
 | :------------------------------------------------------------------------------------------------------------------------------------------------------------ | :---------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [**`SmartWeather_iPhoneDuo_small.mp4`**](file:///Users/provider.op/orca/workspaces/SmartWeather/scratch-1/videos/SmartWeather_iPhoneDuo_small.mp4)           | iPhone Duo Simulator (iOS 27.1)          | Adaptive layout transitions between the single-column compact cover screen and expanded dual-pane `NavigationSplitView` across the foldable hinge.   |
-| [**`SmartWeather_PhysicalDevice_small.mp4`**](file:///Users/provider.op/orca/workspaces/SmartWeather/scratch-1/videos/SmartWeather_PhysicalDevice_small.mp4) | Physical iPhone 14 Pro Device (iOS 27.2) | Real-time interactive location search, async debouncing, live Open-Meteo API fetching, activity selector bar, and dynamic 7-day forecast re-ranking. |
+| [**`SmartWeather_iPhoneDuo_small.mp4`**](https://github.com/rxtr007/SmartWeather/tree/f54c7a76f57ee76445698be94f95c39ecc0e690e/videos/SmartWeather_iPhoneDuo_small.mp4)           | iPhone Duo Simulator (iOS 27.1)          | Adaptive layout transitions between the single-column compact cover screen and expanded dual-pane `NavigationSplitView` across the foldable hinge.   |
+| [**`SmartWeather_PhysicalDevice_small.mp4`**](https://github.com/rxtr007/SmartWeather/tree/f54c7a76f57ee76445698be94f95c39ecc0e690e/videos/SmartWeather_PhysicalDevice_small.mp4) | Physical iPhone 14 Pro Device (iOS 27.2) | Real-time interactive location search, async debouncing, live Open-Meteo API fetching, activity selector bar, and dynamic 7-day forecast re-ranking. |
 
 ---
 
