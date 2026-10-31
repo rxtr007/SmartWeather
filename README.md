@@ -1,5 +1,13 @@
 # SmartWeather — 7-Day Activity Suitability Planner for iPhone Duo
 
+
+https://github.com/user-attachments/assets/cc3d5d43-ba0b-4397-a349-4287d3e88b07
+
+
+
+https://github.com/user-attachments/assets/a5165cc9-2831-4507-b68e-1961cff8341f
+
+
 **SmartWeather** is a native iOS application built with Swift 6 and SwiftUI, engineered specifically for conventional iPhones and foldable dual-screen devices (**iPhone Duo**). It retrieves meteorological and marine forecasts from Open-Meteo REST APIs to deterministically score and rank the best days of the week for four distinct outdoor and cultural activities:
 1. **Skiing**: Evaluates fresh powder accumulation, freezing temperature zones, slush rain penalties, and gale-force wind hold risks.
 2. **Surfing**: Analyzes coastal wave height sweet spots, long-period groundswell quality, onshore chop penalties, and gracefully flags inland destinations.
