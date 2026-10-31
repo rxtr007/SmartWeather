@@ -2,13 +2,13 @@
   "default-configuration": "Debug",
   "configurations": [
     "Debug",
-    "Release",
+    "Release"
   ],
   "localizations": {
     "development": "en",
     "supported": [
-      "Base",
-    ],
+      "Base"
+    ]
   },
   "files": [
     {
@@ -19,8 +19,13 @@
           "kind": "group",
           "path": "App",
           "children": [
-            { "path": "SmartWeatherApp.swift", "target-membership": [ "SmartWeather/compile-sources" ] },
-          ],
+            {
+              "path": "SmartWeatherApp.swift",
+              "target-membership": [
+                "SmartWeather/compile-sources"
+              ]
+            }
+          ]
         },
         {
           "kind": "group",
@@ -30,24 +35,69 @@
               "kind": "group",
               "path": "Models",
               "children": [
-                { "path": "ActivityType.swift", "target-membership": [ "SmartWeather/compile-sources" ] },
-                { "path": "DailyAssessment.swift", "target-membership": [ "SmartWeather/compile-sources" ] },
-                { "path": "DailyWeatherMetrics.swift", "target-membership": [ "SmartWeather/compile-sources" ] },
-                { "path": "SuitabilityScore.swift", "target-membership": [ "SmartWeather/compile-sources" ] },
-              ],
+                {
+                  "path": "ActivityType.swift",
+                  "target-membership": [
+                    "SmartWeather/compile-sources"
+                  ]
+                },
+                {
+                  "path": "DailyAssessment.swift",
+                  "target-membership": [
+                    "SmartWeather/compile-sources"
+                  ]
+                },
+                {
+                  "path": "DailyWeatherMetrics.swift",
+                  "target-membership": [
+                    "SmartWeather/compile-sources"
+                  ]
+                },
+                {
+                  "path": "SuitabilityScore.swift",
+                  "target-membership": [
+                    "SmartWeather/compile-sources"
+                  ]
+                }
+              ]
             },
             {
               "kind": "group",
               "path": "Scoring",
               "children": [
-                { "path": "ActivityRankingEngine.swift", "target-membership": [ "SmartWeather/compile-sources" ] },
-                { "path": "IndoorSightseeingScorer.swift", "target-membership": [ "SmartWeather/compile-sources" ] },
-                { "path": "OutdoorSightseeingScorer.swift", "target-membership": [ "SmartWeather/compile-sources" ] },
-                { "path": "SkiingScorer.swift", "target-membership": [ "SmartWeather/compile-sources" ] },
-                { "path": "SurfingScorer.swift", "target-membership": [ "SmartWeather/compile-sources" ] },
-              ],
-            },
-          ],
+                {
+                  "path": "ActivityRankingEngine.swift",
+                  "target-membership": [
+                    "SmartWeather/compile-sources"
+                  ]
+                },
+                {
+                  "path": "IndoorSightseeingScorer.swift",
+                  "target-membership": [
+                    "SmartWeather/compile-sources"
+                  ]
+                },
+                {
+                  "path": "OutdoorSightseeingScorer.swift",
+                  "target-membership": [
+                    "SmartWeather/compile-sources"
+                  ]
+                },
+                {
+                  "path": "SkiingScorer.swift",
+                  "target-membership": [
+                    "SmartWeather/compile-sources"
+                  ]
+                },
+                {
+                  "path": "SurfingScorer.swift",
+                  "target-membership": [
+                    "SmartWeather/compile-sources"
+                  ]
+                }
+              ]
+            }
+          ]
         },
         {
           "kind": "group",
@@ -57,28 +107,63 @@
               "kind": "group",
               "path": "DTOs",
               "children": [
-                { "path": "GeocodingResponse.swift", "target-membership": [ "SmartWeather/compile-sources" ] },
-                { "path": "ForecastResponse.swift", "target-membership": [ "SmartWeather/compile-sources" ] },
-                { "path": "MarineResponse.swift", "target-membership": [ "SmartWeather/compile-sources" ] },
-              ],
+                {
+                  "path": "GeocodingResponse.swift",
+                  "target-membership": [
+                    "SmartWeather/compile-sources"
+                  ]
+                },
+                {
+                  "path": "ForecastResponse.swift",
+                  "target-membership": [
+                    "SmartWeather/compile-sources"
+                  ]
+                },
+                {
+                  "path": "MarineResponse.swift",
+                  "target-membership": [
+                    "SmartWeather/compile-sources"
+                  ]
+                }
+              ]
             },
             {
               "kind": "group",
               "path": "Mappers",
               "children": [
-                { "path": "WeatherMetricsMapper.swift", "target-membership": [ "SmartWeather/compile-sources" ] },
-              ],
+                {
+                  "path": "WeatherMetricsMapper.swift",
+                  "target-membership": [
+                    "SmartWeather/compile-sources"
+                  ]
+                }
+              ]
             },
             {
               "kind": "group",
               "path": "Network",
               "children": [
-                { "path": "OpenMeteoError.swift", "target-membership": [ "SmartWeather/compile-sources" ] },
-                { "path": "WeatherServiceProtocol.swift", "target-membership": [ "SmartWeather/compile-sources" ] },
-                { "path": "OpenMeteoClient.swift", "target-membership": [ "SmartWeather/compile-sources" ] },
-              ],
-            },
-          ],
+                {
+                  "path": "OpenMeteoError.swift",
+                  "target-membership": [
+                    "SmartWeather/compile-sources"
+                  ]
+                },
+                {
+                  "path": "WeatherServiceProtocol.swift",
+                  "target-membership": [
+                    "SmartWeather/compile-sources"
+                  ]
+                },
+                {
+                  "path": "OpenMeteoClient.swift",
+                  "target-membership": [
+                    "SmartWeather/compile-sources"
+                  ]
+                }
+              ]
+            }
+          ]
         },
         {
           "kind": "group",
@@ -88,8 +173,13 @@
               "kind": "group",
               "path": "ViewModels",
               "children": [
-                { "path": "WeatherPlannerViewModel.swift", "target-membership": [ "SmartWeather/compile-sources" ] },
-              ],
+                {
+                  "path": "WeatherPlannerViewModel.swift",
+                  "target-membership": [
+                    "SmartWeather/compile-sources"
+                  ]
+                }
+              ]
             },
             {
               "kind": "group",
@@ -99,36 +189,98 @@
                   "kind": "group",
                   "path": "Components",
                   "children": [
-                    { "path": "ActivityPickerBar.swift", "target-membership": [ "SmartWeather/compile-sources" ] },
-                    { "path": "Color+AppTheme.swift", "target-membership": [ "SmartWeather/compile-sources" ] },
-                    { "path": "DayDetailView.swift", "target-membership": [ "SmartWeather/compile-sources" ] },
-                    { "path": "LocationSearchBar.swift", "target-membership": [ "SmartWeather/compile-sources" ] },
-                    { "path": "RankedDayCard.swift", "target-membership": [ "SmartWeather/compile-sources" ] },
-                    { "path": "SuitabilityBadgeView.swift", "target-membership": [ "SmartWeather/compile-sources" ] },
-                  ],
+                    {
+                      "path": "ActivityPickerBar.swift",
+                      "target-membership": [
+                        "SmartWeather/compile-sources"
+                      ]
+                    },
+                    {
+                      "path": "Color+AppTheme.swift",
+                      "target-membership": [
+                        "SmartWeather/compile-sources"
+                      ]
+                    },
+                    {
+                      "path": "DayDetailView.swift",
+                      "target-membership": [
+                        "SmartWeather/compile-sources"
+                      ]
+                    },
+                    {
+                      "path": "LocationSearchBar.swift",
+                      "target-membership": [
+                        "SmartWeather/compile-sources"
+                      ]
+                    },
+                    {
+                      "path": "RankedDayCard.swift",
+                      "target-membership": [
+                        "SmartWeather/compile-sources"
+                      ]
+                    },
+                    {
+                      "path": "SuitabilityBadgeView.swift",
+                      "target-membership": [
+                        "SmartWeather/compile-sources"
+                      ]
+                    }
+                  ]
                 },
                 {
                   "kind": "group",
                   "path": "Screens",
                   "children": [
-                    { "path": "CompactPlannerView.swift", "target-membership": [ "SmartWeather/compile-sources" ] },
-                    { "path": "ExpandedPlannerView.swift", "target-membership": [ "SmartWeather/compile-sources" ] },
-                    { "path": "PlannerRootView.swift", "target-membership": [ "SmartWeather/compile-sources" ] },
-                  ],
-                },
-              ],
-            },
-          ],
+                    {
+                      "path": "CompactPlannerView.swift",
+                      "target-membership": [
+                        "SmartWeather/compile-sources"
+                      ]
+                    },
+                    {
+                      "path": "ExpandedPlannerView.swift",
+                      "target-membership": [
+                        "SmartWeather/compile-sources"
+                      ]
+                    },
+                    {
+                      "path": "PlannerRootView.swift",
+                      "target-membership": [
+                        "SmartWeather/compile-sources"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
         },
-      ],
+        {
+          "kind": "group",
+          "path": "Resources",
+          "children": [
+            {
+              "path": "Assets.xcassets",
+              "target-membership": [
+                "SmartWeather/resources"
+              ]
+            }
+          ]
+        }
+      ]
     },
     {
       "kind": "group",
       "name": "Products",
       "children": [
-        { "path": "<PRODUCTS>/SmartWeather.app", "id": "SWAPP0000000000000000001", "type": "wrapper.application", "index": false },
-      ],
-    },
+        {
+          "path": "<PRODUCTS>/SmartWeather.app",
+          "id": "SWAPP0000000000000000001",
+          "type": "wrapper.application",
+          "index": false
+        }
+      ]
+    }
   ],
   "targets": [
     {
@@ -139,10 +291,13 @@
       "legacy-provisioning-style": "automatic",
       "build-phases": [
         "compile-sources",
+        "resources"
       ],
       "build-settings": {
+        "ASSETCATALOG_COMPILER_APPICON_NAME": "AppIcon",
         "CODE_SIGN_IDENTITY": "iPhone Developer",
         "CODE_SIGN_STYLE": "Automatic",
+        "DEVELOPMENT_TEAM": "HQ32V37ZQZ",
         "ENABLE_PREVIEWS": "YES",
         "GENERATE_INFOPLIST_FILE": "YES",
         "INFOPLIST_KEY_CFBundleDisplayName": "SmartWeather",
@@ -152,13 +307,13 @@
         "INFOPLIST_KEY_UISupportedInterfaceOrientations": "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortraitUpsideDown",
         "LD_RUNPATH_SEARCH_PATHS": [
           "$(inherited)",
-          "@executable_path/Frameworks",
+          "@executable_path/Frameworks"
         ],
-        "PRODUCT_BUNDLE_IDENTIFIER": "com.example.SmartWeather",
+        "PRODUCT_BUNDLE_IDENTIFIER": "com.example.SmartWeather-",
         "SDKROOT": "iphoneos",
-        "TARGETED_DEVICE_FAMILY": "1,2",
-      },
-    },
+        "TARGETED_DEVICE_FAMILY": "1,2"
+      }
+    }
   ],
   "build-settings": {
     "ALWAYS_SEARCH_USER_PATHS": "NO",
@@ -181,8 +336,8 @@
     "SWIFT_DEFAULT_ACTOR_ISOLATION": "MainActor",
     "SWIFT_OPTIMIZATION_LEVEL[config=Debug]": "-Onone",
     "SWIFT_OPTIMIZATION_LEVEL[config=Release]": "-O",
-    "SWIFT_VERSION": "6.0",
+    "SWIFT_VERSION": "6.0"
   },
   "products-group": null,
-  "last-upgrade": "27.1",
+  "last-upgrade": "27.1"
 }
